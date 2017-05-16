@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash 
 
 # Runs during git flow release start
 #
@@ -15,15 +15,47 @@
 
 VERSION=$1
 
-# Implement your script here.
+set -x
+
+# Bianca: If VERSION is blank but GitVersion.yaml exists, terminate
+# Create .semver if it doesn't exist
+# If it does exist, read it and compare versions.
+if [ -z "$VERSION" ] && [ -f ./GitVersion.yml ]; then
+	gitversion > .semver
+elif [ -z "$VERSION" ] && [ ! -f ./GitVersion.yml ]; then
+	echo "ERROR: No version file, no GitVersion config"
+	exit 1
+fi
+
 
 SCRIPT_PATH="$0"; while [ -h "$SCRIPT_PATH" ]; do SCRIPT_PATH=$(readlink "$SCRIPT_PATH"); done
 . "$(dirname $SCRIPT_PATH)/modules/functions.sh"
 
-. "$HOOKS_DIR/modules/bump-version.sh" release
-if [ $? -ne 0 ]; then
-    exit 1
-fi
+# Echo out the semver
+__read_semver_json
 
+# Remove excess quote marks
+# This is used for the branch name for the release
+VERSION=`awk -F '"' '{ print $2 }' <<< $MAJORMINORPATCH`
+
+# . "$HOOKS_DIR/modules/bump-version.sh" release
+# if [ $? -ne 0 ]; then
+#     exit 1
+# fi
+
+# exec < /dev/tty
+
+# while true; do
+#   read -p "[filter-flow-release-start-version] Confirm version? (Y/n)" yn
+#   if [ "$yn" = "" ]; then
+#     yn='Y'
+#   fi
+#   case $yn in
+#       [Yy] ) bundle outdated --pre; break;;
+#       [Nn] ) exit;;
+#       * ) echo "Please answer y or n for yes or no.";;
+#   esac
+# done
+rm .semver
 echo $VERSION
 exit 0

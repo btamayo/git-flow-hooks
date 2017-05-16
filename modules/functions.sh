@@ -55,3 +55,21 @@ function __is_binary {
 
     return 1
 }
+
+# Bianca
+function __read_semver_json {
+    # grep -Po '"text":.*?[^\\]",' tweets.json 
+    # -P is missing in OSX, replaced by -E
+    # jq .semver '.[0] | { major: .Major, minor: .Minor, patch: .Patch, prereleasetag: .PreReleaseTag, semver: .SemVer }'
+
+    # This is to determine increments (Regex for integers)
+    MAJOR=`grep -Eo '"Major":(\d*?,|.*?[^\\]",)' .semver | awk -F':' '{print $2}'`
+    MINOR=`grep -Eo '"Minor":(\d*?,|.*?[^\\]",)' .semver | awk -F':' '{print $2}'`
+    PATCH=`grep -Eo '"Patch":(\d*?,|.*?[^\\]",)' .semver | awk -F':' '{print $2}'`
+
+    # This is used for the branch name (Regex for String)
+    MAJORMINORPATCH=`grep -Eo '"MajorMinorPatch":.*?[^\\]",' .semver | awk -F':' '{print $2}'`
+    
+    # This is used for tagging if needed
+    SEMVER=`grep -Eo '"SemVer":.*?[^\\]",' .semver | awk -F':' '{print $2}'`
+}

@@ -67,6 +67,7 @@ if [ ! -z "$VERSION_TAG" ]; then
 fi
 
 # read version file (if version not found by tags)
+# TODO: Bianca Tamayo (May 15, 2017) - Read gitversion instead
 
 if [ -z "$VERSION_CURRENT" ]; then
     if [ -z "$VERSION_FILE" ]; then
@@ -80,7 +81,6 @@ if [ -z "$VERSION_CURRENT" ]; then
 fi
 
 # use 0.0.0 (if version not found by file)
-
 if [ -z "$VERSION_CURRENT" ]; then
     VERSION_CURRENT="0.0.0"
 fi
