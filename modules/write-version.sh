@@ -27,9 +27,13 @@ if [ -z "$VERSION_BUMP_MESSAGE" ]; then
     VERSION_BUMP_MESSAGE="Bump version to %version%"
 fi
 
-echo -n "$VERSION" > $VERSION_FILE && \
-    git add $VERSION_FILE && \
-    git commit -m "$(echo "$VERSION_BUMP_MESSAGE" | sed s/%version%/$VERSION/g)"
+# echo -n "$VERSION" > $VERSION_FILE && \
+#     git add $VERSION_FILE && \
+#     git commit -m --allow-empty "$(echo "$VERSION_BUMP_MESSAGE" | sed s/%version%/$VERSION/g)"
+
+echo -n "$VERSION" && \
+   git commit -m --allow-empty "$(echo "$VERSION_BUMP_MESSAGE" | sed s/%version%/$VERSION/g)"
+
 
 if [ $? -ne 0 ]; then
     __print_fail "Unable to write version to $VERSION_FILE."

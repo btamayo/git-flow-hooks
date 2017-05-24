@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash 
 
 # Runs during git flow release finish and a tag message is given
 #
@@ -26,5 +26,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "${MESSAGE}"
+echo "ABC"
+# echo "${MESSAGE}"
 exit 0

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash 
 
 if [ -z "$VERSION" ]; then
     if [ "$1" == "hotfix" ]; then

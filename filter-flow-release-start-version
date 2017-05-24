@@ -15,8 +15,6 @@
 
 VERSION=$1
 
-set -x
-
 # Bianca: If VERSION is blank but GitVersion.yaml exists, terminate
 # Create .semver if it doesn't exist
 # If it does exist, read it and compare versions.
